@@ -3,16 +3,14 @@ package br.com.clickbus.service.impl;
 import br.com.clickbus.model.Place;
 import br.com.clickbus.repository.PlaceRepository;
 import br.com.clickbus.service.PlaceService;
-import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * {@link PlaceService} implementation class
@@ -22,6 +20,8 @@ import org.springframework.util.StringUtils;
 @Service
 @Transactional
 public class PlaceServiceImpl implements PlaceService {
+
+    private final Logger log = LogManager.getLogger(PlaceServiceImpl.class);
 
     private final PlaceRepository placeRepository;
 
@@ -36,13 +36,6 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     @Transactional(readOnly = true)
     public Page<Place> findAll(Pageable pageable) {
-        System.out.println(pageable.getSort());
-//        String customDir = StringUtils.isEmpty(dir) ? "ASC" : dir.toUpperCase();
-//        String customSort = StringUtils.isEmpty(sort) ? "name" : sort;
-//        
-//        Sort placeSort = Sort.by(Sort.Direction.fromString(customDir), customSort);       
-//        Pageable pageable = PageRequest.of(page, size, placeSort);
-
         return placeRepository.findAll(pageable);
     }
 
@@ -72,6 +65,7 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public Place save(Place place) {
         Assert.notNull(place, "The place object must be not null");
+        log.debug("Request to save Place : {}", place);
         return placeRepository.save(place);
     }
 
@@ -80,6 +74,7 @@ public class PlaceServiceImpl implements PlaceService {
      */
     @Override
     public Place update(String id, Place place) {
+        //TODO valid if id exists before update
         return placeRepository.findById(id).map(p -> {
             p.setName(place.getName());
             p.setSlug(place.getSlug());

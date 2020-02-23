@@ -1,0 +1,58 @@
+[INFO ] 2020-02-23 16:59:23.886 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 13364 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 16:59:23.925 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 16:59:23.926 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 16:59:33.524 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 10.737 seconds (JVM running for 15.488)
+[DEBUG] 2020-02-23 17:00:19.260 [http-nio-8080-exec-2] PlaceServiceImpl - Sort= UNSORTED
+[INFO ] 2020-02-23 17:02:40.633 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 19960 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:02:40.648 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:02:40.649 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:02:50.238 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 10.78 seconds (JVM running for 14.462)
+[DEBUG] 2020-02-23 17:03:17.639 [http-nio-8080-exec-2] PlaceServiceImpl - Sort= UNSORTED
+[INFO ] 2020-02-23 17:07:40.768 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 14508 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:07:40.785 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:07:40.787 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:07:48.227 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 8.678 seconds (JVM running for 12.41)
+[DEBUG] 2020-02-23 17:08:08.716 [http-nio-8080-exec-2] PlaceServiceImpl - Sort= UNSORTED
+[INFO ] 2020-02-23 17:12:12.801 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 15692 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:12:12.815 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:12:12.816 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:12:20.990 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 9.264 seconds (JVM running for 12.951)
+[INFO ] 2020-02-23 17:13:18.986 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 16968 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:13:19.004 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:13:19.005 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:13:26.961 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 8.863 seconds (JVM running for 11.864)
+[INFO ] 2020-02-23 17:15:11.404 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 17216 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:15:11.425 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:15:11.427 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:17:13.810 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 5500 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:17:13.835 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:17:13.837 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:19:13.775 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 3780 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:19:13.790 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:19:13.800 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:21:44.838 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 16252 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:21:44.854 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:21:44.855 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:21:52.127 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 8.625 seconds (JVM running for 11.947)
+[INFO ] 2020-02-23 17:30:35.546 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 16944 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:30:35.561 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:30:35.563 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:30:43.036 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 8.726 seconds (JVM running for 12.355)
+[INFO ] 2020-02-23 17:31:15.547 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 19284 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:31:15.564 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:31:15.565 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:31:26.377 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 11.927 seconds (JVM running for 15.528)
+[DEBUG] 2020-02-23 17:32:11.698 [http-nio-8080-exec-1] PlaceServiceImpl - Sort= UNSORTED
+[INFO ] 2020-02-23 17:33:24.777 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 10020 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:33:24.800 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:33:24.802 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:33:34.304 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 10.738 seconds (JVM running for 14.421)
+[INFO ] 2020-02-23 17:34:23.149 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 18420 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:34:23.154 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:34:23.156 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:34:31.597 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 9.429 seconds (JVM running for 12.232)
+[INFO ] 2020-02-23 17:35:06.749 [main] CbPlaceApiApplication - Starting CbPlaceApiApplication on DESKTOP-AHU7QLT with PID 5752 (started by Danilo Bitencourt in C:\Users\Danilo Bitencourt\workspace-interviews\quero-ser-clickbus\testes\backend-developer\solution\cb-place\cb-place-api)
+[DEBUG] 2020-02-23 17:35:06.784 [main] CbPlaceApiApplication - Running with Spring Boot v2.2.4.RELEASE, Spring v5.2.3.RELEASE
+[INFO ] 2020-02-23 17:35:06.786 [main] CbPlaceApiApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2020-02-23 17:35:15.924 [main] CbPlaceApiApplication - Started CbPlaceApiApplication in 10.15 seconds (JVM running for 13.377)
+[DEBUG] 2020-02-23 17:35:22.125 [http-nio-8080-exec-2] PlaceServiceImpl - Sort= UNSORTED

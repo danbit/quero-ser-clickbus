@@ -19,10 +19,17 @@ public interface PlaceService {
     List<Place> findAll();
 
     /**
+     * Find registered place by id parameter
+     *
+     * @param id {@link java.lang.String} instance representing the place id
+     * @return {@link Place} instance representing the saved place
+     */
+    Place findById(String id);
+
+    /**
      * Find registered place by name parameter
      *
      * @param name {@link java.lang.String} instance representing the place name
-     *
      * @return {@link Place} instance representing the saved place
      */
     Place findByName(final String name);
@@ -31,7 +38,6 @@ public interface PlaceService {
      * Save the Place
      *
      * @param place {@link Place} instance representing the place
-     *
      * @return {@link Place} instance representing the saved place
      */
     Place save(final Place place);
@@ -40,9 +46,7 @@ public interface PlaceService {
      * Save the Place
      *
      * @param id {@link java.lang.String} instance representing the place id
-     *
      * @param place {@link Place} instance representing the place
-     *
      * @return {@link Place} instance representing the saved place
      */
     Place update(String id, final Place place);

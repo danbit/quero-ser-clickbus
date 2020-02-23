@@ -5,9 +5,14 @@ import br.com.clickbus.repository.PlaceRepository;
 import br.com.clickbus.service.PlaceService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * {@link PlaceService} implementation class
@@ -30,8 +35,15 @@ public class PlaceServiceImpl implements PlaceService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Place> findAll() {
-        return placeRepository.findAll();
+    public Page<Place> findAll(Pageable pageable) {
+        System.out.println(pageable.getSort());
+//        String customDir = StringUtils.isEmpty(dir) ? "ASC" : dir.toUpperCase();
+//        String customSort = StringUtils.isEmpty(sort) ? "name" : sort;
+//        
+//        Sort placeSort = Sort.by(Sort.Direction.fromString(customDir), customSort);       
+//        Pageable pageable = PageRequest.of(page, size, placeSort);
+
+        return placeRepository.findAll(pageable);
     }
 
     /**
@@ -43,7 +55,7 @@ public class PlaceServiceImpl implements PlaceService {
         Assert.notNull(id, "The place name must be not null");
         return placeRepository.findById(id).get();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -72,7 +84,7 @@ public class PlaceServiceImpl implements PlaceService {
             p.setName(place.getName());
             p.setSlug(place.getSlug());
             p.setCity(place.getCity());
-            p.setState(place.getState());            
+            p.setState(place.getState());
             return placeRepository.save(p);
         }).orElseGet(() -> {
             place.setId(id);

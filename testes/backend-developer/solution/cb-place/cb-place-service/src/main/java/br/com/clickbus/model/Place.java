@@ -3,6 +3,7 @@ package br.com.clickbus.model;
 import com.sun.istack.NotNull;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import lombok.Data;
@@ -23,7 +24,7 @@ public class Place implements Serializable {
     @Id
     private String id;
 
-    @NotNull
+    @Basic(optional = false)
     @Column(nullable = false)
     private String name;
     

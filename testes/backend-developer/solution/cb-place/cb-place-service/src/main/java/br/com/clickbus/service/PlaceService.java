@@ -2,6 +2,8 @@ package br.com.clickbus.service;
 
 import br.com.clickbus.model.Place;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Interface to define the Place Services Behavior
@@ -13,10 +15,12 @@ public interface PlaceService {
     /**
      * Find all registered places
      *
+     * @param pageable {@link org.springframework.data.domain.Pageable} instance
+     * representing the pagination options
      * @return An {@link List} of {
      * @Place} registered
      */
-    List<Place> findAll();
+    Page<Place> findAll(Pageable pageable);
 
     /**
      * Find registered place by id parameter

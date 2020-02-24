@@ -1,7 +1,7 @@
 package br.com.clickbus.converter;
 
-import static br.com.clickbus.config.util.Constants.DATE_TIME;
-import static br.com.clickbus.config.util.Constants.ZONE;
+import static br.com.clickbus.util.Constants.DATE_TIME;
+import static br.com.clickbus.util.Constants.ZONE;
 import com.sun.istack.Nullable;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

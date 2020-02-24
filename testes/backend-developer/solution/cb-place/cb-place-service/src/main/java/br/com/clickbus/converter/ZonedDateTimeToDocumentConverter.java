@@ -1,6 +1,6 @@
 package br.com.clickbus.converter;
 
-import br.com.clickbus.config.util.Constants;
+import br.com.clickbus.util.Constants;
 import com.sun.istack.Nullable;
 import java.time.ZonedDateTime;
 import java.util.Date;

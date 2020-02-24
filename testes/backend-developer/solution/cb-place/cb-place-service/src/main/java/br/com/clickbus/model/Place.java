@@ -15,8 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author Danilo Bitencourt
  */
-@Document(collection = "places")
 @Data
+@Document(collection = "places")
 public class Place implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,7 +24,7 @@ public class Place implements Serializable {
     @Id
     private String id;
 
-    @Basic(optional = false)
+    @NotNull
     @Column(nullable = false)
     private String name;
     

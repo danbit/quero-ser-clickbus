@@ -3,6 +3,7 @@ package br.com.clickbus.service.impl;
 import br.com.clickbus.model.Place;
 import br.com.clickbus.repository.PlaceRepository;
 import br.com.clickbus.service.PlaceService;
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,9 @@ public class PlaceServiceImpl implements PlaceService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Place findById(String id) {
+    public Optional<Place> findById(String id) {
         Assert.notNull(id, "The place name must be not null");
-        return placeRepository.findById(id).get();
+        return placeRepository.findById(id);
     }
 
     /**
@@ -54,36 +55,36 @@ public class PlaceServiceImpl implements PlaceService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Place findByName(String name) {
+    public Optional<Place> findByName(String name) {
         Assert.notNull(name, "The place name must be not null");
-        return placeRepository.findByName(name);
+        return Optional.of(placeRepository.findByName(name));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Place save(Place place) {
+    public Optional<Place> save(Place place) {
         Assert.notNull(place, "The place object must be not null");
         log.debug("Request to save Place : {}", place);
-        return placeRepository.save(place);
+        return Optional.of(placeRepository.save(place));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Place update(String id, Place place) {
+    public Optional<Place> update(String id, Place place) {
         //TODO valid if id exists before update
         return placeRepository.findById(id).map(p -> {
             p.setName(place.getName());
             p.setSlug(place.getSlug());
             p.setCity(place.getCity());
             p.setState(place.getState());
-            return placeRepository.save(p);
+            return Optional.of(placeRepository.save(p));
         }).orElseGet(() -> {
             place.setId(id);
-            return placeRepository.save(place);
+            return this.save(place);
         });
     }
 

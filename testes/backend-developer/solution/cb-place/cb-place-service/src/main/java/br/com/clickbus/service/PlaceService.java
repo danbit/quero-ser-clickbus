@@ -2,6 +2,7 @@ package br.com.clickbus.service;
 
 import br.com.clickbus.model.Place;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -28,7 +29,7 @@ public interface PlaceService {
      * @param id {@link java.lang.String} instance representing the place id
      * @return {@link Place} instance representing the saved place
      */
-    Place findById(String id);
+    Optional<Place> findById(String id);
 
     /**
      * Find registered place by name parameter
@@ -36,7 +37,7 @@ public interface PlaceService {
      * @param name {@link java.lang.String} instance representing the place name
      * @return {@link Place} instance representing the saved place
      */
-    Place findByName(final String name);
+    Optional<Place> findByName(final String name);
 
     /**
      * Save the Place
@@ -44,7 +45,7 @@ public interface PlaceService {
      * @param place {@link Place} instance representing the place
      * @return {@link Place} instance representing the saved place
      */
-    Place save(final Place place);
+    Optional<Place> save(final Place place);
 
     /**
      * Save the Place
@@ -53,7 +54,7 @@ public interface PlaceService {
      * @param place {@link Place} instance representing the place
      * @return {@link Place} instance representing the saved place
      */
-    Place update(String id, final Place place);
+    Optional<Place> update(String id, final Place place);
 
     /**
      * Delete the place correspondent to id

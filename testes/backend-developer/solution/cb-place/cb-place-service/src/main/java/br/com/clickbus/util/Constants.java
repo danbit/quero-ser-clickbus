@@ -1,4 +1,4 @@
-package br.com.clickbus.config.util;
+package br.com.clickbus.util;
 
 /**
  *

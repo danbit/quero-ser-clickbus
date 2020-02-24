@@ -1,0 +1,11 @@
+spring:
+    main:
+        allow-bean-definition-overriding: true
+    data:
+        mongodb:
+            uri: mongodb://192.168.99.100:27017/cbplace
+
+server:
+    servlet:
+        context-path: /api   
+            

@@ -28,7 +28,7 @@ import org.springframework.web.server.ResponseStatusException;
  * @author Danilo Bitencourt
  */
 @RestController
-@RequestMapping("/api/places")
+@RequestMapping("/places")
 public class PlaceResource {
 
     private final PlaceService placeService;
@@ -78,11 +78,13 @@ public class PlaceResource {
      * @throws URISyntaxException
      */
     @PostMapping
-    public ResponseEntity<PlaceDTO> createPlace(@Valid @RequestBody Place newPlace) throws URISyntaxException {
+    public ResponseEntity<PlaceDTO> createPlace(@Valid @RequestBody PlaceDTO newPlace) throws URISyntaxException {
         if (newPlace.getId() != null) {
             return ResponseEntity.badRequest().body(null);
         }
-        PlaceDTO place = placeService.save(newPlace).map(p -> placeMapper.convertToDTO(p)).get();
+
+        Place placeEntity = placeMapper.convertToEntity(newPlace);
+        PlaceDTO place = placeService.save(placeEntity).map(p -> placeMapper.convertToDTO(p)).get();
 
         return ResponseEntity.created(new URI(String.format("/api/places/%s", place.getId())))
                 .body(place);
@@ -98,8 +100,9 @@ public class PlaceResource {
      * with status 500 (Internal Server Error) if the place could not be updated
      */
     @PutMapping("{id}")
-    public ResponseEntity<PlaceDTO> updatePlace(@Valid @RequestBody Place newPlace, @PathVariable String id) {
-        PlaceDTO place = placeService.update(id, newPlace).map(p -> placeMapper.convertToDTO(p)).get();
+    public ResponseEntity<PlaceDTO> updatePlace(@Valid @RequestBody PlaceDTO newPlace, @PathVariable String id) {
+        Place placeEntity = placeMapper.convertToEntity(newPlace);
+        PlaceDTO place = placeService.update(id, placeEntity).map(p -> placeMapper.convertToDTO(p)).get();
         return ResponseEntity.ok().body(place);
     }
 

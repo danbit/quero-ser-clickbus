@@ -1,12 +1,12 @@
-package br.com.clickbus.model;
+package br.com.clickbus.domain;
 
-import com.sun.istack.NotNull;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,26 +24,15 @@ public class Place implements Serializable {
     @Id
     private String id;
 
-    @NotNull
-    @Column(nullable = false)
     private String name;
-    
     private String slug;
-    
-    @NotNull
-    @Column(nullable = false)
     private City city;
-    
-    @NotNull
-    @Column(nullable = false)
     private State state;
 
     @CreatedDate
-    @Column(nullable = false)    
     private ZonedDateTime createdAt = ZonedDateTime.now();
 
     @CreatedDate
-    @Column(nullable = false)
     private ZonedDateTime updatedAt = ZonedDateTime.now();
 
 }

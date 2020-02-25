@@ -39,7 +39,7 @@ public class CbPlaceApiApplication {
 
     private ApiInfo getApiInfo() {
         Contact contact = new Contact("Danilo Bitencourt", "https://github.com/danbit/quero-ser-clickbus",
-                 "daniloesi@gmail.com");
+                "daniloesi@gmail.com");
 
         return new ApiInfoBuilder()
                 .title("Place API")

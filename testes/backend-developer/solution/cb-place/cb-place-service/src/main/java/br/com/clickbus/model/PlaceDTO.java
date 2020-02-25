@@ -1,17 +1,21 @@
-package br.com.clickbus.resource;
+package br.com.clickbus.model;
 
-import br.com.clickbus.model.City;
-import br.com.clickbus.model.State;
+import br.com.clickbus.domain.City;
+import br.com.clickbus.domain.State;
 import java.io.Serializable;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author Danilo Bitencourt
  */
-@Getter
-@Setter
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PlaceDTO implements Serializable{
     
     private static final long serialVersionUID = 1L;

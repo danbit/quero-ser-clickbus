@@ -1,16 +1,14 @@
 package br.com.clickbus.resource;
 
-import br.com.clickbus.mapper.PlaceMapper;
-import br.com.clickbus.model.Place;
+import br.com.clickbus.model.PlaceDTO;
 import br.com.clickbus.service.PlaceService;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,30 +27,31 @@ import org.springframework.web.server.ResponseStatusException;
  * @author Danilo Bitencourt
  */
 @RestController
-@RequestMapping("/places")
+@RequestMapping("/api/places")
 public class PlaceResource {
 
     private final PlaceService placeService;
-    private final PlaceMapper placeMapper;
-
+    
     @Autowired
-    public PlaceResource(PlaceService placeRepository, PlaceMapper placeMapper) {
-        this.placeService = placeRepository;
-        this.placeMapper = placeMapper;
+    public PlaceResource(PlaceService placeService) {
+        this.placeService = placeService;
     }
 
     /**
      * GET /places : get all the places.
      *
-     * @param pageable the pagination options
+     * @param page
+     * @param size
+     * @param sort
      * @return the {@link org.springframework.http.ResponseEntity} with status
      * 200 (OK) and the list of places in body
      */
     @GetMapping
-    public ResponseEntity<Page<PlaceDTO>> findAll(@NotNull final Pageable pageable) {
-        Page<PlaceDTO> places = placeService.findAll(pageable)
-                .map(p -> placeMapper.convertToDTO(p));
-
+    public ResponseEntity<Page<PlaceDTO>> findAll(@RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
+            @RequestParam(value = "size", defaultValue = "30", required = false) Integer size,
+            @RequestParam(value = "sort", defaultValue = "name", required = false) String sort) {
+        
+        Page<PlaceDTO> places = placeService.findAll(PageRequest.of(page, size, ASC, sort));
         return new ResponseEntity<>(places, HttpStatus.OK);
     }
 
@@ -64,9 +64,9 @@ public class PlaceResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<PlaceDTO> findOne(@PathVariable String id) {
-        PlaceDTO place = placeService.findById(id).map(p -> placeMapper.convertToDTO(p)).get();
+        Optional<PlaceDTO> place = placeService.findById(id);
 
-        return Optional.ofNullable(place).map(response -> ResponseEntity.ok().body(response))
+        return place.map(response -> ResponseEntity.ok().body(response))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
@@ -78,13 +78,12 @@ public class PlaceResource {
      * @throws URISyntaxException
      */
     @PostMapping
-    public ResponseEntity<PlaceDTO> createPlace(@Valid @RequestBody PlaceDTO newPlace) throws URISyntaxException {
+    public ResponseEntity<PlaceDTO> createPlace(@RequestBody PlaceDTO newPlace) throws URISyntaxException {
         if (newPlace.getId() != null) {
             return ResponseEntity.badRequest().body(null);
         }
 
-        Place placeEntity = placeMapper.convertToEntity(newPlace);
-        PlaceDTO place = placeService.save(placeEntity).map(p -> placeMapper.convertToDTO(p)).get();
+        PlaceDTO place = placeService.save(newPlace).get();
 
         return ResponseEntity.created(new URI(String.format("/api/places/%s", place.getId())))
                 .body(place);
@@ -100,9 +99,8 @@ public class PlaceResource {
      * with status 500 (Internal Server Error) if the place could not be updated
      */
     @PutMapping("{id}")
-    public ResponseEntity<PlaceDTO> updatePlace(@Valid @RequestBody PlaceDTO newPlace, @PathVariable String id) {
-        Place placeEntity = placeMapper.convertToEntity(newPlace);
-        PlaceDTO place = placeService.update(id, placeEntity).map(p -> placeMapper.convertToDTO(p)).get();
+    public ResponseEntity<PlaceDTO> updatePlace(@RequestBody PlaceDTO newPlace, @PathVariable String id) {
+        PlaceDTO place = placeService.update(id, newPlace).get();
         return ResponseEntity.ok().body(place);
     }
 

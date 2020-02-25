@@ -1,6 +1,6 @@
 package br.com.clickbus.repository;
 
-import br.com.clickbus.model.Place;
+import br.com.clickbus.domain.Place;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**

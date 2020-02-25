@@ -1,7 +1,7 @@
 package br.com.clickbus.mapper;
 
-import br.com.clickbus.model.Place;
-import br.com.clickbus.resource.PlaceDTO;
+import br.com.clickbus.domain.Place;
+import br.com.clickbus.model.PlaceDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 

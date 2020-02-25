@@ -1,6 +1,6 @@
 package br.com.clickbus.service;
 
-import br.com.clickbus.model.Place;
+import br.com.clickbus.model.PlaceDTO;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -21,40 +21,40 @@ public interface PlaceService {
      * @return An {@link List} of {
      * @Place} registered
      */
-    Page<Place> findAll(Pageable pageable);
+    Page<PlaceDTO> findAll(Pageable pageable);
 
     /**
      * Find registered place by id parameter
      *
      * @param id {@link java.lang.String} instance representing the place id
-     * @return {@link Place} instance representing the saved place
+     * @return {@link PlaceDTO} instance representing the saved place
      */
-    Optional<Place> findById(String id);
+    Optional<PlaceDTO> findById(String id);
 
     /**
      * Find registered place by name parameter
      *
      * @param name {@link java.lang.String} instance representing the place name
-     * @return {@link Place} instance representing the saved place
+     * @return {@link PlaceDTO} instance representing the saved place
      */
-    Optional<Place> findByName(final String name);
+    Optional<PlaceDTO> findByName(final String name);
 
     /**
      * Save the Place
      *
-     * @param place {@link Place} instance representing the place
-     * @return {@link Place} instance representing the saved place
+     * @param place {@link PlaceDTO} instance representing the place
+     * @return {@link PlaceDTO} instance representing the saved place
      */
-    Optional<Place> save(final Place place);
+    Optional<PlaceDTO> save(final PlaceDTO place);
 
     /**
      * Save the Place
      *
      * @param id {@link java.lang.String} instance representing the place id
-     * @param place {@link Place} instance representing the place
-     * @return {@link Place} instance representing the saved place
+     * @param place {@link PlaceDTO} instance representing the place
+     * @return {@link PlaceDTO} instance representing the saved place
      */
-    Optional<Place> update(String id, final Place place);
+    Optional<PlaceDTO> update(String id, final PlaceDTO place);
 
     /**
      * Delete the place correspondent to id

@@ -84,7 +84,8 @@ public class PlaceResource {
      * 200 (OK) and with body the place
      */
     @GetMapping("/search")
-    public ResponseEntity<Page<PlaceDTO>> search(@RequestParam String searchTerm,
+    public ResponseEntity<Page<PlaceDTO>> search(
+            @RequestParam String searchTerm,
             @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "size", defaultValue = "30", required = false) Integer size,
             @RequestParam(value = "sort", defaultValue = "name", required = false) String sort) {

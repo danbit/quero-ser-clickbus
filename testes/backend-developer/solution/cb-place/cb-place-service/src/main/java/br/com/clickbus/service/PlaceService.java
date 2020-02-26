@@ -3,7 +3,6 @@ package br.com.clickbus.service;
 import br.com.clickbus.exception.PlaceNotFoundException;
 import br.com.clickbus.model.PlaceDTO;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

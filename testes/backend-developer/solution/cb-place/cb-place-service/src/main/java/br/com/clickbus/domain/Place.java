@@ -16,6 +16,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author Danilo Bitencourt
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "places")
 public class Place implements Serializable {
 

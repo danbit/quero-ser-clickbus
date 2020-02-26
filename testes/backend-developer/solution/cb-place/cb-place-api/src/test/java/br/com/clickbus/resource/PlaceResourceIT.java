@@ -2,12 +2,12 @@ package br.com.clickbus.resource;
 
 import br.com.clickbus.domain.City;
 import br.com.clickbus.domain.State;
+import br.com.clickbus.exception.PlaceNotFoundException;
 import br.com.clickbus.model.PlaceDTO;
 import br.com.clickbus.service.PlaceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.hamcrest.Matchers;
 import static org.mockito.ArgumentMatchers.*;
 import org.junit.jupiter.api.Test;
@@ -17,6 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -25,29 +27,30 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
- *
+ * Rest Integration tests for {@link PlaceResource}
+ * 
  * @author Danilo Bitencourt
  */
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class PlaceResourceIT {
 
-    private MockMvc mockMvc;
-
+    private final String invalidId = "00000";
+    
     @Mock
     private PlaceService placeService;
-
-    private ObjectMapper objectMapper = new ObjectMapper();
 
     @InjectMocks
     private PlaceResource placeResource;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private MockMvc mockMvc;
     private PlaceDTO validPlaceDTO;
-    private PlaceDTO validPlaceDTOWithoutId;
+    private PlaceDTO placeDTOWithoutId;
 
     @BeforeEach
     public void setUp() {
@@ -58,21 +61,16 @@ public class PlaceResourceIT {
 
         this.validPlaceDTO = PlaceDTO.builder().id("100").name("Mercado Modelo")
                 .slug("mercado-modelo").city(salvador).state(bahia).build();
-        this.validPlaceDTOWithoutId = PlaceDTO.builder().name(validPlaceDTO.getName())
+        this.placeDTOWithoutId = PlaceDTO.builder().name(validPlaceDTO.getName())
                 .slug(validPlaceDTO.getSlug()).city(salvador).state(bahia).build();
 
     }
 
-    /**
-     * Test of findAll method, of class PlaceDTOResource.
-     *
-     * @throws java.lang.Exception
-     */
     @Test
     public void testFindAll() throws Exception {
         Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.ASC, "name"));
 
-        Page<PlaceDTO> places = new PageImpl<>(createPlaceDTOs(), pageable, 3);
+        Page<PlaceDTO> places = new PageImpl<>(createPlaces(), pageable, 3);
 
         Mockito.when(placeService.findAll(pageable)).thenReturn(places);
 
@@ -83,55 +81,78 @@ public class PlaceResourceIT {
                 .andReturn();
     }
 
-    /**
-     * Test of findOne method, of class PlaceDTOResource.
-     *
-     * @throws java.lang.Exception
-     */
     @Test
     public void testFindOne() throws Exception {
-        String id = "100";
-        Mockito.when(placeService.findById(id))
-                .thenReturn(Optional.of(validPlaceDTO));
+        Mockito.when(placeService.findById(validPlaceDTO.getId()))
+                .thenReturn(validPlaceDTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(String.format("/api/places/%s", id))
+        mockMvc.perform(MockMvcRequestBuilders.get(String.format("/api/places/%s", validPlaceDTO.getId()))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", Matchers.is(validPlaceDTO.getId())))
                 .andReturn();
     }
 
-    /**
-     * Test of createPlaceDTO method, of class PlaceDTOResource.
-     *
-     * @throws java.lang.Exception
-     */
+    @Test
+    public void whenFindByInvalidId_thenNotFound() throws Exception {
+        Mockito.when(placeService.findById(invalidId))
+                .thenThrow(PlaceNotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(
+                String.format("/api/places/%s", invalidId))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+        Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Direction.ASC, "name"));
+        Page<PlaceDTO> places = new PageImpl<>(List.of(validPlaceDTO), pageable, 1);
+
+        Mockito.when(placeService.search(validPlaceDTO.getName(), pageable)).thenReturn(places);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(
+                String.format("/api/places?name=%s&size=3&page=0&sort=name", invalidId))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", Matchers.is(validPlaceDTO.getId())))
+                .andReturn();
+    }
+
     @Test
     public void testCreatePlaceDTO() throws Exception {
         Mockito.when(placeService.save(any(PlaceDTO.class)))
-                .thenReturn(Optional.of(validPlaceDTO));
+                .thenReturn(validPlaceDTO);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/places")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(validPlaceDTOWithoutId)))
+                .content(objectMapper.writeValueAsString(placeDTOWithoutId)))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$.id", Matchers.is(validPlaceDTO.getId())))
                 .andReturn();
     }
 
-    /**
-     * Test of updatePlaceDTO method, of class PlaceDTOResource.
-     * @throws java.lang.Exception
-     */
+    @Test
+    public void whenCreateWithNullId_thenBadRequest() throws Exception {
+        Mockito.when(placeService.save(placeDTOWithoutId))
+                .thenThrow(IllegalArgumentException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.post(
+                String.format("/api/places"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(placeDTOWithoutId)))
+                .andExpect(status().isBadRequest());
+    }
+
     @Test
     public void testUpdatePlaceDTO() throws Exception {
-        String id = "100";
         validPlaceDTO.setName("updated name");
-        
-        Mockito.when(placeService.update(eq(id), any(PlaceDTO.class)))
-                .thenReturn(Optional.of(validPlaceDTO));
 
-        mockMvc.perform(MockMvcRequestBuilders.put(String.format("/api/places/%s", id))
+        Mockito.when(placeService.update(eq(validPlaceDTO.getId()), any(PlaceDTO.class)))
+                .thenReturn(validPlaceDTO);
+
+        mockMvc.perform(MockMvcRequestBuilders.put(
+                String.format("/api/places/%s", validPlaceDTO.getId()))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(objectMapper.writeValueAsString(validPlaceDTO)))
                 .andExpect(status().is2xxSuccessful())
@@ -139,22 +160,40 @@ public class PlaceResourceIT {
                 .andReturn();
     }
 
-    /**
-     * Test of deletePlaceDTO method, of class PlaceDTOResource.
-     * @throws java.lang.Exception
-     */
+    @Test
+    public void whenUpdateWithNullContent_thenBadRequest() throws Exception {
+        Mockito.when(placeService.update(eq(validPlaceDTO.getId()), isNull()))
+                .thenThrow(IllegalArgumentException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.put(
+                String.format("/api/places/%s", validPlaceDTO.getId()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(null)))
+                .andExpect(status().isBadRequest());
+    }
+
     @Test
     public void testDeletePlaceDTO() throws Exception {
-        String id = "100";        
-        Mockito.doNothing().when(placeService).delete(id);
-        
-        mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/api/places/%s", id))
+        Mockito.doNothing().when(placeService).delete(validPlaceDTO.getId());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/api/places/%s", validPlaceDTO.getId()))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
     }
 
-    private List<PlaceDTO> createPlaceDTOs() {
+    @Test
+    public void whenDeleteInvalidId_thenNotFound() throws Exception {
+        Mockito.doThrow(PlaceNotFoundException.class).when(placeService)
+                .delete(invalidId);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(
+                String.format("/api/places/%s", invalidId))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    private List<PlaceDTO> createPlaces() {
         final List<PlaceDTO> places = new ArrayList<>(3);
         City salvador = new City("Salvador");
         State bahia = new State("Bahia", "BA");

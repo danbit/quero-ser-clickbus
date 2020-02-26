@@ -3,6 +3,6 @@ spring:
         allow-bean-definition-overriding: true
     data:
         mongodb:
-            uri: mongodb://localhost:27017/cbplace
+            uri: mongodb://192.168.99.100:27017/cbplace
    
             

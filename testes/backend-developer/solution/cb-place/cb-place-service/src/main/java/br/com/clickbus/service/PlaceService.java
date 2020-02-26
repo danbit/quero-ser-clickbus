@@ -1,5 +1,6 @@
 package br.com.clickbus.service;
 
+import br.com.clickbus.exception.PlaceNotFoundException;
 import br.com.clickbus.model.PlaceDTO;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public interface PlaceService {
      * @param pageable {@link org.springframework.data.domain.Pageable} instance
      * representing the pagination options
      * @return An {@link List} of {
-     * @Place} registered
+     * @PlaceDTO} registered
      */
     Page<PlaceDTO> findAll(Pageable pageable);
 
@@ -29,15 +30,18 @@ public interface PlaceService {
      * @param id {@link java.lang.String} instance representing the place id
      * @return {@link PlaceDTO} instance representing the saved place
      */
-    Optional<PlaceDTO> findById(String id);
+    PlaceDTO findById(final String id) throws PlaceNotFoundException;
 
     /**
-     * Find registered place by name parameter
+     * Find registered place by a searchTerm parameter
      *
-     * @param name {@link java.lang.String} instance representing the place name
-     * @return {@link PlaceDTO} instance representing the saved place
+     * @param searchTerm {@link java.lang.String} instance representing the
+     * search term 
+     * @param pageable 
+     * @return An {@link List} of {
+     * @PlaceDTO} registered
      */
-    Optional<PlaceDTO> findByName(final String name);
+    Page<PlaceDTO> search(final String searchTerm, Pageable pageable) throws PlaceNotFoundException;
 
     /**
      * Save the Place
@@ -45,7 +49,7 @@ public interface PlaceService {
      * @param place {@link PlaceDTO} instance representing the place
      * @return {@link PlaceDTO} instance representing the saved place
      */
-    Optional<PlaceDTO> save(final PlaceDTO place);
+    PlaceDTO save(final PlaceDTO place);
 
     /**
      * Save the Place
@@ -54,13 +58,13 @@ public interface PlaceService {
      * @param place {@link PlaceDTO} instance representing the place
      * @return {@link PlaceDTO} instance representing the saved place
      */
-    Optional<PlaceDTO> update(String id, final PlaceDTO place);
+    PlaceDTO update(final String id, final PlaceDTO place) throws PlaceNotFoundException;
 
     /**
      * Delete the place correspondent to id
      *
      * @param id {@link java.lang.String} instance representing the place id
      */
-    void delete(final String id);
+    void delete(final String id) throws PlaceNotFoundException;
 
 }

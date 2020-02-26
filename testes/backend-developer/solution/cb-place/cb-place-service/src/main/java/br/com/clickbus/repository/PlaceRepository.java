@@ -1,6 +1,8 @@
 package br.com.clickbus.repository;
 
 import br.com.clickbus.domain.Place;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
@@ -9,6 +11,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface PlaceRepository extends MongoRepository<Place, String>{
 
-    Place findByName(String name);
+    Page<Place> findByName(String name, Pageable pageable);
     
 }

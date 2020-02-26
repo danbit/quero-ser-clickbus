@@ -1,10 +1,10 @@
 package br.com.clickbus.resource;
 
+import br.com.clickbus.exception.PlaceNotFoundException;
 import br.com.clickbus.model.PlaceDTO;
 import br.com.clickbus.service.PlaceService;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +31,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class PlaceResource {
 
     private final PlaceService placeService;
-    
+
     @Autowired
     public PlaceResource(PlaceService placeService) {
         this.placeService = placeService;
@@ -50,9 +50,9 @@ public class PlaceResource {
     public ResponseEntity<Page<PlaceDTO>> findAll(@RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "size", defaultValue = "30", required = false) Integer size,
             @RequestParam(value = "sort", defaultValue = "name", required = false) String sort) {
-        
+
         Page<PlaceDTO> places = placeService.findAll(PageRequest.of(page, size, ASC, sort));
-        return new ResponseEntity<>(places, HttpStatus.OK);
+        return ResponseEntity.ok(places);
     }
 
     /**
@@ -64,44 +64,74 @@ public class PlaceResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<PlaceDTO> findOne(@PathVariable String id) {
-        Optional<PlaceDTO> place = placeService.findById(id);
+        try {
+            PlaceDTO place = placeService.findById(id);
+            return ResponseEntity.ok(place);
+        } catch (PlaceNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
 
-        return place.map(response -> ResponseEntity.ok().body(response))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    /**
+     * GET /places/search: get the place by searchTerm.
+     *
+     * @param searchTerm the searchTerm of the place to retrieve
+     * @param page
+     * @param size
+     * @param sort
+     * @return the {@link org.springframework.http.ResponseEntity} with status
+     * 200 (OK) and with body the place
+     */
+    @GetMapping("/search")
+    public ResponseEntity<Page<PlaceDTO>> search(@RequestParam String searchTerm,
+            @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
+            @RequestParam(value = "size", defaultValue = "30", required = false) Integer size,
+            @RequestParam(value = "sort", defaultValue = "name", required = false) String sort) {
+        Page<PlaceDTO> places = placeService.search(searchTerm, PageRequest.of(page, size, ASC, sort));
+
+        return ResponseEntity.ok(places);
     }
 
     /**
      * POST /places: Create a new place
      *
      * @param newPlace the place to create
-     * @return
+     * @return the ResponseEntity with status 200 (OK) and with body the created
+     * place, or with status 400 (Bad Request) if the place is not valid, or
+     * with status 500 (Internal Server Error) if the place could not be created
      * @throws URISyntaxException
      */
     @PostMapping
     public ResponseEntity<PlaceDTO> createPlace(@RequestBody PlaceDTO newPlace) throws URISyntaxException {
-        if (newPlace.getId() != null) {
-            return ResponseEntity.badRequest().body(null);
+        try {
+            PlaceDTO place = placeService.save(newPlace);
+            return ResponseEntity.created(new URI(String.format("/api/places/%s", place.getId())))
+                    .body(place);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
-
-        PlaceDTO place = placeService.save(newPlace).get();
-
-        return ResponseEntity.created(new URI(String.format("/api/places/%s", place.getId())))
-                .body(place);
     }
 
     /**
-     * POST /places: Create a new place
+     * PUT /places: Update a existed place
      *
      * @param newPlace
      * @param id
      * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * place, or with status 400 (Bad Request) if the place is not valid, or
+     * place, or with status 404 (Not Found) if the "id" place not exists, or
      * with status 500 (Internal Server Error) if the place could not be updated
      */
     @PutMapping("{id}")
     public ResponseEntity<PlaceDTO> updatePlace(@RequestBody PlaceDTO newPlace, @PathVariable String id) {
-        PlaceDTO place = placeService.update(id, newPlace).get();
-        return ResponseEntity.ok().body(place);
+        try {
+            PlaceDTO place = placeService.update(id, newPlace);
+            return ResponseEntity.ok().body(place);
+        } catch (PlaceNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     /**
@@ -113,7 +143,13 @@ public class PlaceResource {
      */
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deletePlace(@PathVariable String id) {
-        placeService.delete(id);
+        try {
+            placeService.delete(id);
+        } catch (PlaceNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+
         return ResponseEntity.ok().body(null);
     }
 

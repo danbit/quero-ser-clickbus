@@ -1,11 +1,11 @@
 package br.com.clickbus.service.impl;
 
 import br.com.clickbus.domain.Place;
+import br.com.clickbus.exception.PlaceNotFoundException;
 import br.com.clickbus.mapper.PlaceMapper;
 import br.com.clickbus.model.PlaceDTO;
 import br.com.clickbus.repository.PlaceRepository;
 import br.com.clickbus.service.PlaceService;
-import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +49,10 @@ public class PlaceServiceImpl implements PlaceService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Optional<PlaceDTO> findById(String id) {
+    public PlaceDTO findById(String id) {
         Assert.notNull(id, "The place name must be not null");
-        return placeRepository.findById(id).map(p -> placeMapper.convertToDTO(p));
+        return placeRepository.findById(id).map(p -> placeMapper.convertToDTO(p))
+                .orElseThrow(() -> new PlaceNotFoundException(id));
     }
 
     /**
@@ -59,38 +60,40 @@ public class PlaceServiceImpl implements PlaceService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Optional<PlaceDTO> findByName(String name) {
-        Assert.notNull(name, "The place name must be not null");
-        return Optional.of(placeRepository.findByName(name)).map(p -> placeMapper.convertToDTO(p));
+    public Page<PlaceDTO> search(final String searchTerm, Pageable pageable) {
+        Assert.notNull(searchTerm, "The place searchTerm must be not null");
+        return placeRepository.findByName(searchTerm, pageable).map(p -> placeMapper.convertToDTO(p));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<PlaceDTO> save(PlaceDTO place) {
+    public PlaceDTO save(PlaceDTO place) {
         Assert.notNull(place, "The place object must be not null");
+        Assert.notNull(place.getId(), "The place id must be not null");
         log.debug("Request to save Place : {}", place);
+
         Place newPlace = placeMapper.convertToEntity(place);
-        return Optional.of(placeRepository.save(newPlace)).map(p -> placeMapper.convertToDTO(p));
+        return placeMapper.convertToDTO(placeRepository.save(newPlace));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<PlaceDTO> update(String id, PlaceDTO place) {
-        //TODO valid if id exists before update
+    public PlaceDTO update(String id, PlaceDTO place) {
+        Assert.notNull(id, "The place id must be not null");
+        Assert.notNull(place, "The place object must be not null");
+        log.debug("Request to update Place : {}", place);
+        
         return placeRepository.findById(id).map(p -> {
             p.setName(place.getName());
             p.setSlug(place.getSlug());
             p.setCity(place.getCity());
             p.setState(place.getState());
-            return Optional.of(placeRepository.save(p)).map(pl -> placeMapper.convertToDTO(pl));
-        }).orElseGet(() -> {
-            place.setId(id);
-            return this.save(place);
-        });
+            return placeMapper.convertToDTO(placeRepository.save(p));
+        }).orElseThrow(() -> new PlaceNotFoundException(id));
     }
 
     /**
@@ -98,8 +101,10 @@ public class PlaceServiceImpl implements PlaceService {
      */
     @Override
     public void delete(String id) {
-        Assert.notNull(id, "The place id must be  not null");
-        placeRepository.deleteById(id);
+        Assert.notNull(id, "The place id must be not null");
+
+        placeRepository.findById(id).ifPresentOrElse((p)
+                -> placeRepository.deleteById(p.getId()), () -> new PlaceNotFoundException(id));
     }
 
 }
